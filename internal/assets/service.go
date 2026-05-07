@@ -58,11 +58,11 @@ func (s *Service) FilterBy(filterField string, fieldValue string) []Asset {
 	var result []Asset
 
 	switch filterField {
-	case "Name":
+	case "name":
 		result = s.FilterByName(fieldValue)
-	case "Location":
+	case "location":
 		result = s.FilterByLocation(fieldValue)
-	case "Type":
+	case "type":
 		result = s.FilterByType(fieldValue)
 	}
 	return result

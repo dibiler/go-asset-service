@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/dibiler/go-asset-service/internal/assets"
 	"github.com/dibiler/go-asset-service/pkg/utils"
@@ -47,7 +48,7 @@ func main() {
 				fmt.Println("Missing field to filter by or filtered value.")
 				return
 			}
-			filterField := args[2]
+			filterField := strings.ToLower(args[2])
 			filterValue := args[3]
 			result := service.FilterBy(filterField, filterValue)
 

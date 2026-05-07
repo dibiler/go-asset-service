@@ -23,3 +23,47 @@ func (s *Service) FilterByType(assetType string) []Asset {
 
 	return result
 }
+
+func (s *Service) FilterByLocation(assetLocation string) []Asset {
+	var result []Asset
+
+	for _, a := range s.assets {
+		if a.Location == assetLocation {
+			result = append(result, a)
+		}
+	}
+	return result
+}
+func (s *Service) FilterByName(assetName string) []Asset {
+	var result []Asset
+
+	for _, a := range s.assets {
+		if a.Name == assetName {
+			result = append(result, a)
+		}
+	}
+	return result
+}
+func (s *Service) CountByType(assetType string) int {
+	var count int = 0
+
+	for _, a := range s.assets {
+		if a.Type == assetType {
+			count++
+		}
+	}
+	return count
+}
+func (s *Service) FilterBy(filterField string, fieldValue string) []Asset {
+	var result []Asset
+
+	switch filterField {
+	case "Name":
+		result = s.FilterByName(fieldValue)
+	case "Location":
+		result = s.FilterByLocation(fieldValue)
+	case "Type":
+		result = s.FilterByType(fieldValue)
+	}
+	return result
+}

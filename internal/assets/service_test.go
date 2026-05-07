@@ -83,3 +83,13 @@ func TestFilterBy(t *testing.T) {
 		t.Errorf("FilterByName found wrong asset.")
 	}
 }
+
+func TestCountByType(t *testing.T) {
+	testType := "type-1"
+
+	assetsFound := testService.CountByType(testType)
+
+	if assetsFound != 1 {
+		t.Errorf("CountByType can't find types correctly. Found %d assets instead of 1.", assetsFound)
+	}
+}

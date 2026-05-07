@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "name": "server-1",
+    "type": "server",
+    "location": "eu-west"
+  },
+  {
+    "id": "2",
+    "name": "db-1",
+    "type": "database",
+    "location": "us-east"
+  }
+]

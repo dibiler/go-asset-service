@@ -1,6 +1,7 @@
 package assets
 
 import (
+	"slices"
 	"testing"
 )
 
@@ -56,19 +57,22 @@ func TestFilterBy(t *testing.T) {
 
 	for _, a := range types {
 		testValue := a + "-1"
+		filterByValue := testService.FilterBy(a, testValue)
 		switch a {
 		case "name":
-
-			if len(testService.FilterBy(a, testValue)) != len(testService.FilterByName(testValue)) {
+			filterByNameValue := testService.FilterByName(testValue)
+			if !slices.Equal(filterByValue, filterByNameValue) {
 				t.Errorf("FilterBy(name,_) not behaving the same as FilterByName")
 			}
 		case "location":
-			if len(testService.FilterBy(a, testValue)) != len(testService.FilterByLocation(testValue)) {
-				t.Errorf("FilterBy(name,_) not behaving the same as FilterByName")
+			filterByLocationValue := testService.FilterByLocation(testValue)
+			if !slices.Equal(filterByValue, filterByLocationValue) {
+				t.Errorf("FilterBy(location,_) not behaving the same as FilterByLocation")
 			}
 		case "type":
-			if len(testService.FilterBy(a, testValue)) != len(testService.FilterByType(testValue)) {
-				t.Errorf("FilterBy(name,_) not behaving the same as FilterByName")
+			filterByTypeValue := testService.FilterByType(testValue)
+			if !slices.Equal(filterByValue, filterByTypeValue) {
+				t.Errorf("FilterBy(type,_) not behaving the same as FilterByType")
 			}
 		default:
 			t.Errorf("Wrong filter using TestFilterBy (%s)", a)

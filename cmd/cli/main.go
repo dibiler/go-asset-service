@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	data, err := utils.LoadJson(assets.Asset)("data.assets.json")
+	data, err := utils.LoadJSON[assets.Asset]("data/assets.json")
 
 	if err != nil {
 		panic(err)
@@ -30,7 +30,7 @@ func main() {
 		return
 	}
 
-	all := service.getAll()
+	all := service.GetAll()
 
 	fmt.Println("All Assets:")
 	for _, a := range all {

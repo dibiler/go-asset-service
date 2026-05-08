@@ -57,20 +57,28 @@ func TestFilterBy(t *testing.T) {
 
 	for _, a := range types {
 		testValue := a + "-1"
-		filterByValue := testService.FilterBy(a, testValue)
 		switch a {
 		case "name":
 			filterByNameValue := testService.FilterByName(testValue)
+			filterByValue := testService.FilterBy(func(asset Asset) bool {
+				return asset.Name == testValue
+			})
 			if !slices.Equal(filterByValue, filterByNameValue) {
 				t.Errorf("FilterBy(name,_) not behaving the same as FilterByName")
 			}
 		case "location":
 			filterByLocationValue := testService.FilterByLocation(testValue)
+			filterByValue := testService.FilterBy(func(asset Asset) bool {
+				return asset.Location == testValue
+			})
 			if !slices.Equal(filterByValue, filterByLocationValue) {
 				t.Errorf("FilterBy(location,_) not behaving the same as FilterByLocation")
 			}
 		case "type":
 			filterByTypeValue := testService.FilterByType(testValue)
+			filterByValue := testService.FilterBy(func(asset Asset) bool {
+				return asset.Type == testValue
+			})
 			if !slices.Equal(filterByValue, filterByTypeValue) {
 				t.Errorf("FilterBy(type,_) not behaving the same as FilterByType")
 			}

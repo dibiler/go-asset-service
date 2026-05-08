@@ -50,7 +50,22 @@ func main() {
 			}
 			filterField := strings.ToLower(args[2])
 			filterValue := args[3]
-			result := service.FilterBy(filterField, filterValue)
+			var filterFunction func(assets.Asset) bool
+			switch filterField {
+			case "name":
+				filterFunction = func(asset assets.Asset) bool {
+					return asset.Name == filterValue
+				}
+			case "type":
+				filterFunction = func(asset assets.Asset) bool {
+					return asset.Type == filterValue
+				}
+			case "location":
+				filterFunction = func(asset assets.Asset) bool {
+					return asset.Location == filterValue
+				}
+			}
+			result := service.FilterBy(filterFunction)
 
 			if len(result) == 0 {
 				fmt.Println("No Assets were found.")

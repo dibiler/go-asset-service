@@ -54,16 +54,14 @@ func (s *Service) CountByType(assetType string) int {
 	}
 	return count
 }
-func (s *Service) FilterBy(filterField string, fieldValue string) []Asset {
+func (s *Service) FilterBy(predicate func(Asset) bool) []Asset {
 	var result []Asset
 
-	switch filterField {
-	case "name":
-		result = s.FilterByName(fieldValue)
-	case "location":
-		result = s.FilterByLocation(fieldValue)
-	case "type":
-		result = s.FilterByType(fieldValue)
+	for _, a := range s.assets {
+		if predicate(a) {
+			result = append(result, a)
+		}
 	}
+
 	return result
 }

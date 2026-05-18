@@ -4,14 +4,6 @@ import (
 	"testing"
 )
 
-func FakeFlags(req Request) []string {
-
-	return []string{
-		"-method=" + req.method,
-		"-filter=" + req.filter,
-		"-value=" + req.value,
-	}
-}
 func TestValidatedParams(t *testing.T) {
 	tests := []struct {
 		name     string

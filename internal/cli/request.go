@@ -50,14 +50,15 @@ func ParseParams(args []string) (Request, []error) {
 
 	parseError := fs.Parse(args)
 
+	if parseError != nil {
+		return Request{method: *cmdMethod, filter: *cmdFilter, value: *cmdValue}, []error{parseError}
+	}
+
 	filter := strings.ToLower(*cmdFilter)
 	method := strings.ToLower(*cmdMethod)
 
 	validated := ValidatedParams(method, filter, *cmdValue)
 
-	if parseError != nil {
-		validated = append(validated, parseError)
-	}
 	return Request{method: method, filter: filter, value: *cmdValue}, validated
 
 }

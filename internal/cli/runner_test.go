@@ -20,11 +20,6 @@ var testAssets = []assets.Asset{
 	{ID: "1", Name: "name-1", Type: "type-1", Location: "location-1", Environment: "development", Status: "active", CreatedAt: createdAt, UpdatedAt: updatedAt},
 	{ID: "2", Name: "name-2", Type: "type-2", Location: "location-2", Environment: "staging", Status: "inactive", CreatedAt: createdAt, UpdatedAt: updatedAt},
 }
-var testService = assets.NewService(testAssets)
-
-func FakeRequest(method, filter, value string) Request {
-	return Request{method: method, filter: filter, value: value}
-}
 
 func TestRun(t *testing.T) {
 	tests := []struct {
@@ -36,6 +31,10 @@ func TestRun(t *testing.T) {
 		{name: "list", req: Request{method: "list"}, wantFirstLine: "All Assets:", wantLen: 3},
 		{name: "count empty", req: Request{method: "countbytype"}, wantFirstLine: "can't count an empty type. Please add value parameter", wantLen: 1},
 		{name: "bad filter", req: Request{method: "filterby", filter: "bad", value: "x"}, wantFirstLine: "filter parameter [bad] not in: name, location, type", wantLen: 1},
+		{name: "empty filterby", req: Request{method: "filterby", filter: "type", value: "x"}, wantFirstLine: "No Assets were found for -filter=[type] and -value=[x]", wantLen: 1},
+		{name: "1 result in filterby", req: Request{method: "filterby", filter: "type", value: "type-1"}, wantFirstLine: "Filtered Assets:", wantLen: 2},
+		{name: "countbytype no results", req: Request{method: "countbytype", value: "not-found"}, wantFirstLine: "Number of assets with type[not-found]: 0", wantLen: 1},
+		{name: "countbytype with 1 result", req: Request{method: "countbytype", value: "type-1"}, wantFirstLine: "Number of assets with type[type-1]: 1", wantLen: 1},
 	}
 
 	for _, tc := range tests {

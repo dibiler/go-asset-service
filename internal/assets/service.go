@@ -4,8 +4,25 @@ type Service struct {
 	assets []Asset
 }
 
+type AssetService interface {
+	AddAsset(Asset) error
+	GetAll() []Asset
+	FilterBy(func(Asset) bool) []Asset
+	CountByType(string) int
+}
+
 func NewService(data []Asset) *Service {
 	return &Service{assets: data}
+}
+
+func (s *Service) AddAsset(a Asset) error {
+	err := ValidateAsset(a)
+	if err != nil {
+		return err
+	}
+
+	s.assets = append(s.assets, a)
+	return nil
 }
 
 func (s *Service) GetAll() []Asset {
@@ -45,7 +62,7 @@ func (s *Service) FilterByName(assetName string) []Asset {
 	return result
 }
 func (s *Service) CountByType(assetType string) int {
-	var count int = 0
+	var count = 0
 
 	for _, a := range s.assets {
 		if a.Type == assetType {

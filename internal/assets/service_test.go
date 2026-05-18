@@ -3,13 +3,30 @@ package assets
 import (
 	"slices"
 	"testing"
+	"time"
 )
 
+var createdAt time.Time = (func() time.Time {
+	date, _ := time.Parse(time.RFC3339, "2024-01-01T00:00:00Z")
+	return date
+})()
+var updatedAt time.Time = (func() time.Time {
+	date, _ := time.Parse(time.RFC3339, "2024-02-01T00:00:00Z")
+	return date
+})()
+
 var testAssets = []Asset{
-	{"1", "name-1", "type-1", "location-1"},
-	{"2", "name-2", "type-2", "location-2"},
+	{"1", "name-1", "type-1", "location-1", "development", "active", createdAt, updatedAt},
+	{"2", "name-2", "type-2", "location-2", "staging", "inactive", createdAt, updatedAt},
 }
 var testService = NewService(testAssets)
+
+func TestGetAll(t *testing.T) {
+
+	if len(testService.GetAll()) != len(testAssets) {
+		t.Errorf("GetAll does not have same length than assets.")
+	}
+}
 
 func TestFilterByType(t *testing.T) {
 	testCorrectType := "type-1"
@@ -19,13 +36,6 @@ func TestFilterByType(t *testing.T) {
 	}
 	if len(testService.FilterByType(testWrongType)) != 0 {
 		t.Errorf("FilterByType found nonExisting Type (%s)", testWrongType)
-	}
-}
-
-func TestGetAll(t *testing.T) {
-
-	if len(testService.GetAll()) != len(testAssets) {
-		t.Errorf("GetAll does not have same length than assets.")
 	}
 }
 
